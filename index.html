@@ -1,11 +1,11 @@
 <!DOCTYPE html>
-<html lang="vi">
+<html lang="vi" class="">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>HARBLX</title>
-<script src="https://cdn.tailwindcss.com"></script>
 
+<script src="https://cdn.tailwindcss.com"></script>
 <script>
 tailwind.config = { darkMode: 'class' }
 </script>
@@ -13,25 +13,8 @@ tailwind.config = { darkMode: 'class' }
 <style>
 body{
 font-family:Arial, sans-serif;
-background:#f1f5f9;
-color:#0f172a;
 overflow-x:hidden;
 transition:0.3s;
-}
-
-.dark body{
-background:#020617;
-color:white;
-}
-
-.sidebar{
-transition:0.4s ease;
-}
-
-.overlay{
-background:rgba(0,0,0,0.6);
-backdrop-filter:blur(4px);
-transition:0.4s;
 }
 
 .loader{
@@ -46,11 +29,11 @@ animation:spin 1s linear infinite;
 </style>
 </head>
 
-<body class="min-h-screen">
+<body class="min-h-screen bg-slate-100 text-slate-900 dark:bg-slate-950 dark:text-white">
 
-<!-- MENU BUTTON -->
+<!-- MENU BUTTON (Mobile only) -->
 <button onclick="toggleMenu()"
-class="fixed top-5 left-5 z-50 bg-indigo-600 text-white p-3 rounded-xl shadow-lg">
+class="fixed top-5 left-5 z-50 bg-indigo-600 text-white p-3 rounded-xl shadow-lg md:hidden">
 ☰
 </button>
 
@@ -63,12 +46,14 @@ class="fixed top-5 right-5 z-50 bg-yellow-400 text-black p-3 rounded-xl shadow-l
 <!-- OVERLAY -->
 <div id="overlay"
 onclick="toggleMenu()"
-class="overlay fixed inset-0 hidden z-40"></div>
+class="fixed inset-0 bg-black/60 backdrop-blur-sm hidden z-20 md:hidden"></div>
 
 <!-- SIDEBAR -->
 <div id="sidebar"
-class="sidebar fixed top-0 left-0 h-full w-64 bg-white dark:bg-slate-900 p-6
-transform -translate-x-full z-50 shadow-xl">
+class="fixed md:relative top-0 left-0 h-full w-64
+bg-white dark:bg-slate-900 p-6
+transform -translate-x-full md:translate-x-0
+transition-transform duration-300 z-30 shadow-xl">
 
 <div class="flex items-center gap-3 mb-8">
   <img src="https://link-anh-cua-ban.png"
@@ -109,7 +94,7 @@ class="block hover:text-indigo-500">🤖 Thêm Bot</a>
 </div>
 
 <!-- CONTENT -->
-<div class="p-10">
+<div class="p-10 md:ml-64">
 
 <!-- HOME -->
 <div id="tab-home">
@@ -124,9 +109,9 @@ placeholder="Dán link cần vượt..."
 class="w-full max-w-xl p-4 rounded-xl bg-gray-200 dark:bg-slate-800 mb-5">
 
 <button onclick="handleBypass()"
-class="bg-indigo-600 text-white px-6 py-3 rounded-xl font-bold">
+class="bg-indigo-600 text-white px-6 py-3 rounded-xl font-bold flex items-center gap-2">
 <span id="btnText">BẮT ĐẦU VƯỢT LINK</span>
-<span id="loader" class="hidden ml-2 w-4 h-4 border-2 border-white border-t-transparent rounded-full loader inline-block"></span>
+<span id="loader" class="hidden w-4 h-4 border-2 border-white border-t-transparent rounded-full loader"></span>
 </button>
 
 <div id="resultBox"
@@ -182,8 +167,10 @@ const API_BASE="https://api.izen.lol/v1/bypass";
 const API_KEY=atob("MzBlYjJiNzQtMmViYi00ODUyLWFkMGYtMTdhMGU2ZmEzNWI3");
 
 function toggleMenu(){
-document.getElementById("sidebar").classList.toggle("-translate-x-full");
-document.getElementById("overlay").classList.toggle("hidden");
+const sidebar=document.getElementById("sidebar");
+const overlay=document.getElementById("overlay");
+sidebar.classList.toggle("-translate-x-full");
+overlay.classList.toggle("hidden");
 }
 
 function switchTab(tab){
@@ -193,7 +180,9 @@ document.getElementById("tab-"+tab).classList.remove("hidden");
 document.querySelectorAll("[id^='nav-']").forEach(el=>el.classList.remove("text-indigo-500"));
 document.getElementById("nav-"+tab).classList.add("text-indigo-500");
 
+if(window.innerWidth < 768){
 toggleMenu();
+}
 }
 
 function toggleTheme(){
@@ -241,4 +230,3 @@ loadViews();
 
 </body>
 </html>
-Ok 
